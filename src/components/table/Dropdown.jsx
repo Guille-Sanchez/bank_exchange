@@ -1,7 +1,38 @@
 import { useEffect, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 
-function BasicExample({ options }) {
+async function FetchExchange(
+  to,
+  options,
+  setArrayOfExchanges,
+  arrayOfExchanges
+) {
+  const controller = new AbortController();
+  const signal = controller.signal;
+  await fetch(
+    `https://currency-exchange.p.rapidapi.com/exchange?from=USD&to=${to}&q=1.0`,
+    options,
+    {
+      signal,
+    }
+  )
+    .then((response) => response.json())
+    .then((response) => {
+      setArrayOfExchanges((prev) => ({
+        ...prev,
+        currency: [...arrayOfExchanges.currency, to],
+        exchange: [...arrayOfExchanges.exchange, response],
+        numberOfRows: arrayOfExchanges.numberOfRows + 1,
+      }));
+    })
+    .catch((err) => console.error(err));
+  console.log("Completed");
+  return () => {
+    controller.abort();
+  };
+}
+
+function DropdownButton({ options, setArrayOfExchanges, arrayOfExchanges }) {
   const [array_of_currencies, setArray_of_currencies] = useState({
     value: [],
     loading: true,
@@ -52,7 +83,19 @@ function BasicExample({ options }) {
         <Dropdown.Menu>
           {array_of_currencies.value[0].map((currency) => {
             return (
-              <Dropdown.Item href="#/action-1" key={currency}>
+              <Dropdown.Item
+                onClick={(e) => {
+                  e.preventDefault();
+                  FetchExchange(
+                    e.target.innerText,
+                    options,
+                    setArrayOfExchanges,
+                    arrayOfExchanges
+                  );
+                  console.log(e.target.innerText);
+                }}
+                key={currency}
+              >
                 {currency}
               </Dropdown.Item>
             );
@@ -63,4 +106,4 @@ function BasicExample({ options }) {
   }
 }
 
-export default BasicExample;
+export default DropdownButton;
