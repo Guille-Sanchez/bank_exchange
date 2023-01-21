@@ -3,12 +3,20 @@ import Dropdown from "./Dropdown.jsx";
 import FetchData from "./FetchData.jsx";
 
 function BasicExample() {
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": `${process.env.REACT_APP_API_KEY}`,
+      "X-RapidAPI-Host": "currency-exchange.p.rapidapi.com",
+    },
+  };
+
   return (
     <Table striped bordered hover>
       <thead>
         <tr>
           <th>
-            <Dropdown />
+            <Dropdown options={options} />
           </th>
           <th>Exhange rate</th>
           <th>Amount</th>
