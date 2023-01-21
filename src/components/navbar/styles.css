@@ -1,0 +1,19 @@
+.navbar {
+  display: flex;
+  gap: 20px;
+
+  background-color: brown;
+}
+
+.navbar > img {
+  height: 100px;
+  width: auto;
+}
+
+.nav > a {
+  text-decoration: none;
+  font-size: 20px;
+}
+.nav-link {
+  font-size: 20px !important;
+}
