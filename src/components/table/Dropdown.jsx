@@ -41,12 +41,23 @@ function DropdownButton({ options, setArrayOfExchanges, arrayOfExchanges }) {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
+    function removeUSD(response) {
+      let cleanResponse = [];
+      response.forEach((element) => {
+        if (element !== "USD") {
+          cleanResponse.push(element);
+        }
+      });
+      console.log(cleanResponse);
+      return cleanResponse;
+    }
     if (true) {
       fetch("https://currency-exchange.p.rapidapi.com/listquotes", options, {
         signal,
       })
         .then((response) => response.json())
         .then((response) => {
+          response = removeUSD(response); // Removes USD currency because it generates conflict if used in 2nd API
           setArray_of_currencies((prev) => ({
             ...prev,
             value: [response],
@@ -65,7 +76,7 @@ function DropdownButton({ options, setArrayOfExchanges, arrayOfExchanges }) {
     return (
       <Dropdown>
         <Dropdown.Toggle variant="success" id="dropdown-basic">
-          Dropdown Button
+          Add Currency
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
@@ -77,7 +88,7 @@ function DropdownButton({ options, setArrayOfExchanges, arrayOfExchanges }) {
     return (
       <Dropdown>
         <Dropdown.Toggle variant="success" id="dropdown-basic">
-          Dropdown Button
+          Add Currency
         </Dropdown.Toggle>
 
         <Dropdown.Menu>

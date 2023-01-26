@@ -1,17 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
-function FetchData({
-  numberOfRows,
-  //currentExchange,
-  //setArrayOfExchanges,
-  arrayOfExchanges,
-}) {
-  /*setArrayOfExchanges((prev) => ({
-    ...prev,
-    currency: currentExchange.currency,
-    exchange: currentExchange.exchange,
-  }));*/
-  console.log(arrayOfExchanges);
+function FetchData({ numberOfRows, arrayOfExchanges }) {
+  const [amountOfCurrencies, setAmountOfCurrencies] = useState(1);
   if (numberOfRows === 0) {
     return (
       <tr>
@@ -23,13 +13,24 @@ function FetchData({
     );
   } else {
     console.log("inside else fetchdata");
-    return [...Array(arrayOfExchanges.numberOfRows)].map((x, index) => {
+    return [...Array(arrayOfExchanges.numberOfRows)].map((_, index) => {
       return (
         <tr key={arrayOfExchanges.currency[index]}>
           <td>{arrayOfExchanges.currency[index]}</td>
           <td>{arrayOfExchanges.exchange[index]}</td>
-          <td>1</td>
-          <td>{arrayOfExchanges.currency[index]}</td>
+          <td>
+            {
+              <input
+                style={{ textAlign: "center", backgroundColor: "inherit" }}
+                type="number"
+                onChange={(e) => {
+                  setAmountOfCurrencies(e.target.value);
+                }}
+                value={amountOfCurrencies}
+              />
+            }
+          </td>
+          <td>{arrayOfExchanges.exchange[index] * amountOfCurrencies}</td>
         </tr>
       );
     });

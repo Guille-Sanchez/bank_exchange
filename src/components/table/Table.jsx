@@ -28,7 +28,6 @@ function BasicExample() {
               setArrayOfExchanges={setArrayOfExchanges}
               arrayOfExchanges={arrayOfExchanges}
             />
-            {console.log(arrayOfExchanges)}
           </th>
           <th>Exhange rate</th>
           <th>Amount</th>
